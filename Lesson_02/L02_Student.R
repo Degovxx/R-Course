@@ -202,3 +202,14 @@ score_post <- c(
 # Order participants by age using order()
 
 # Create a new variable for score improvement (post - pre)
+
+# INDEPENDENT LEARNING ----------------------------------------------------
+# Compare and contrast as.numeric() and as.integer()
+# Run this and think about the output 0.1 + 0.2 == 0.03
+# print(0.1 + 0.2, digits = 20)
+# Why does this matter? Computer precision errors can be costly if you don't know to avoid them...
+# x <- seq(0, 1, by = 0.1)
+# x[x == 0.3]
+# versus
+# x[abs(x - 0.3) < 1e-10]
+# Going back to the first example, R gives us tools to deal with the way computers work. all.equal(0.1 + 0.2, 0.3)

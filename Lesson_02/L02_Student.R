@@ -205,7 +205,7 @@ score_post <- c(
 
 # INDEPENDENT LEARNING ----------------------------------------------------
 # Compare and contrast as.numeric() and as.integer()
-# Run this and think about the output 0.1 + 0.2 == 0.03
+# Run this and think about the output 0.1 + 0.2 == 0.3
 # print(0.1 + 0.2, digits = 20)
 # Why does this matter? Computer precision errors can be costly if you don't know to avoid them...
 # x <- seq(0, 1, by = 0.1)

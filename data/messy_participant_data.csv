@@ -1,0 +1,11 @@
+Participant ID,Age (years),Gender,Income ($),Test Score,Date Enrolled,Notes
+P001,25,F,"$45,000",85,2024-01-15,Completed all tasks
+P002,30,M,"$52,000",92,2024-01-20,NA
+P003,N/A,F,"$48,000",78,2024/02/01,Missed session 2
+P004,35,m,N/A,88,"Jan 25, 2024",
+P005,28,F,"$51,000",95,2024-02-10,Excellent performance
+P006,27,Male,"$47,000",87,2024-02-15,NA
+P007,forty-two,Female,"$55,000",N/A,2024-03-01,Needs follow-up
+P008,29,F,"$49,000",91,3/5/2024,
+P009,31,M,"$53,000",84,2024-03-10,NA
+P010,26,,$46000,89,2024-03-15,

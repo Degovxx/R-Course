@@ -5,37 +5,118 @@
 # Section 1: Atomic Vectors and Type Coercion ----------------------------
 
 # Create a numeric vector with 5 numbers
+numeric_vec <- c(1.5, 2.7, 3.9, 4.2, 5.0)
 
 # Create a character vector with 3 names
+character_vec <- c("Alice", "Bob", "Charlie")
 
 # Create a logical vector with 4 TRUE/FALSE values
+logical_vec <- c(TRUE, FALSE, TRUE, TRUE)
+
+# Integer Vector
+integer_vec <- c(1L, 2L, 3L, 4L, 5L)
 
 # Check the type of each vector using typeof()
+typeof(integer_vec)
+typeof(numeric_vec)
+
+# Floating point rounding issues
+a <- 0.1
+b <- 0.2
+a + b == 0.3
+
+0.1 + 0.2 == 0.3
+0.1 + 0.2
+
+print(0.1 + 0.2, digits = 20)
+
+all.equal(0.1 + 0.2, 0.3)
 
 # Type coercion - what happens when we mix types?
 # Create a vector mixing numbers and characters
-
+mixed1 <- c(1, 2, "three", 4)
+mixed1
 # Check its type - what happened?
+typeof(mixed1)
 
 # Create a vector mixing numbers and logical values
+mixed2 <- c(1, 2, TRUE, FALSE, 5)
+typeof(mixed2)
+mixed2
+
+# everything
+mixed3 <- c(1, 2, TRUE, FALSE, "Five", "5")
+mixed3
+
+# Logical Math
+sum(c(TRUE, TRUE, FALSE)) >= 2
+
+# Explicit Coercion
+as.numeric(mixed3)
+as.character(mixed3)
+as.logical(mixed3)
 
 # Section 2: Lists --------------------------------------------------------
 
 # Create a list with different types (number, character, and logical)
+my_list <- list(42, "Hello", TRUE, c(1, 2, 3))
+my_list
 
 # Create a list with names for each element
+person <- list(
+  name = "Scott",
+  age = 42,
+  is_student = FALSE,
+  grade = c(85, 92, 88)
+)
+person
 
 # Create a nested list (a list containing another list)
+nested_list <- list(
+  participant_1 = list(id = "P001", age = 35, scores = c(78, 82, 85)),
+  participant_2 = list(id = "P002", age = 30, scores = c(88, 90, 92, 88)),
+  participant_3 = list(id = "P003", age = 27, scores = c(75, 80, 83))
+)
+nested_list
 
 # Section 3: Matrices -----------------------------------------------------
 
 # Create a matrix with 3 rows and 4 columns using matrix()
+mat1 <- matrix(1:12, nrow = 3, ncol = 4)
+mat1
 
-# Create a matrix by combining vectors with cbind()
+mat2 <- matrix(1:12, nrow = 3, ncol = 4, byrow = TRUE)
+mat2
 
-# Create a matrix by combining vectors with rbind()
+# Create a matrix by binding columns
+col1 <- c(1, 2, 3)
+col2 <- c(4, 5, 6)
+col3 <- c(7, 8, 9)
+mat3 <- cbind(col1, col2, col3)
+mat3
+
+# Create a matrix by binding rows
+row1 <- c(1, 2, 3)
+row2 <- c(4, 5, 6)
+row3 <- c(7, 8, 9)
+mat4 <- rbind(row1, row2, row3)
+mat4
+
+# Much like lists you can name elements!
+mat1
+rownames(mat1) <- c("Row1", "Row2", "Row3")
+colnames(mat1) <- c("Col1", "Col2", "Col3", "Col4")
 
 # Access the element in row 2, column 3
+mat1[2, 4]
+mat1["Row2", "Col4"]
+
+mat1[1, ]
+mat1[, 3]
+
+mat1[1:2, 2:4]
+
+mat1[upper.tri(mat1)]
 
 # Section 4: Data Frames --------------------------------------------------
 

@@ -121,34 +121,106 @@ mat1[upper.tri(mat1)]
 # Section 4: Data Frames --------------------------------------------------
 
 # Create a data frame with 3 columns: name, age, score
+students_df <- data.frame(
+  name = c("Alice", "Bob", "Charlie", "Diana", "Edward"),
+  age = c(20, 22, 21, 23, 20),
+  score = c(85, 92, 78, 88, 95),
+  passed = c(TRUE, TRUE, TRUE, TRUE, TRUE)
+)
 
 # View the structure of your data frame
+str(students_df)
 
 # Access a column using $
+help("$")
+students_df$score
+str(students_df$score)
+typeof(students_df$score)
+students_df$score <- students_df$score - 2
 
 # Access a column using []
+students_df[, 3]
+students_df[, "score"]
+students_df[, c(FALSE, FALSE, TRUE, FALSE)]
+
+# Helper functions
+nrow(students_df)
+ncol(students_df)
+dim(students_df)
+
+names(students_df)
+
+View(students_df)
+
+# Confusing Selection
+str(students_df$score)
+str(students_df[, "score"])
+str(students_df["score"])
+
+(students_df$score - 2)[3]
+(students_df[, "score"] - 2)[3]
+(students_df["score"] - 2)[3, ]
 
 # Add a new column to the data frame
+students_df$grade <- c("B", "A", "C", "B", "A")
+students_df$score_pct <- students_df$score / 100
 
 # Section 5: Tibbles ------------------------------------------------------
 
 # Load the tidyverse (or tibble) package
+install.packages("tibble")
+library(tidyverse)
 
 # Create a tibble with the same data as your data frame
+students_tbl <- tibble(
+  name = c("Alice", "Bob", "Charlie", "Diana", "Edward"),
+  age = c(20, 22, 21, 23, 20),
+  age_2 = age * 2,
+  score = c(85, 92, 78, 88, 95),
+  passed = c(TRUE, TRUE, TRUE, TRUE, TRUE)
+)
 
 # Convert your data frame to a tibble
+tibble(students_df)
+as.data.frame(students_tbl)
 
 # Print both - notice the differences
+
+# Subsetting Differences
+students_df[, "name"] # Returns a vector (drops to 1D)
+students_tbl[, "name"] # Returns a tibble (stays 2D)
+
+students_df["name"] # Returns a data frame (stays 2D)
+students_tbl["name"] # Returns a tibble (stays 2D)
 
 # Section 6: Indexing Methods ---------------------------------------------
 
 # Create a sample list for practicing indexing
+my_list <- list(
+  numbers = c(1, 2, 3),
+  letters = c("a", "b", "c"),
+  logicals = c(TRUE, FALSE, TRUE)
+)
 
 # Use [ ] to extract an element (returns a list)
+my_list[2]
+class(my_list[2])
 
 # Use [[ ]] to extract an element (returns the value)
+my_list[[2]]
+class(my_list[[2]])
 
 # Use $ to extract by name
+my_list$numbers
+class(my_list$numbers)
+
+# DATA FRAMES TOO
+students_df["name"] # Returns a data frame (1 column)
+students_df[["name"]] # Returns a vector
+students_df$name # Returns a vector
+
+# Multi Indexing
+
 
 # Section 7: Logical Subsetting -------------------------------------------
 

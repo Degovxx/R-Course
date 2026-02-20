@@ -220,7 +220,9 @@ students_df[["name"]] # Returns a vector
 students_df$name # Returns a vector
 
 # Multi Indexing
-
+my_list[[1]][2]
+nested_list[[1]][[3]][2]
+nested_list$participant_1$scores[3]
 
 # Section 7: Logical Subsetting -------------------------------------------
 

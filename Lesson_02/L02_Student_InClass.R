@@ -227,22 +227,88 @@ nested_list$participant_1$scores[3]
 # Section 7: Logical Subsetting -------------------------------------------
 
 # Create a sample vector
+test_scores <- c(65, 78, 82, 55, 91, 88, 73, 95, 60, 85, 75)
 
 # Create a logical vector for values > 75
+passed <- test_scores > 75
+passed
 
 # Use the logical vector to subset the original
+test_scores[passed]
 
 # Combine in one step with a logical condition
+test_scores[test_scores > 75] # =IF($A$1:$A$100, TRUE, FALSE)
+test_scores[test_scores < 75] # PIVOT Table
+test_scores[test_scores == 75]
+test_scores[test_scores >= 75]
+
+# Types of conditional arguments, Look them up! Logic Gates.
+# AND, OR, NOT, NOR, XOR, NAND, XNOR
+
+# Multiple conditions
+test_scores[test_scores > 75 & test_scores > 90]
+test_scores[test_scores > 75 | test_scores > 90]
+
+test_scores[test_scores <= 60 & test_scores > 90]
+test_scores[test_scores <= 60 | test_scores > 90]
+
+# when using and all() when using or you are using any()
+
+# Logical subsetting in a dataframe or tibble
+students_df[students_df$score > 80, ]
+students_tbl[students_df$age > 22, ]
+
+students_tbl[students_df$age >= 20 & students_df$score > 80, ]
+students_tbl[students_df$age > 20 & students_df$score > 80, c("name", "age", "score")]
+
+students_tbl[students_df$age >= 20 & students_df[, "score"] > 80, ]
 
 # Section 8: Factors ------------------------------------------------------
 
 # Create a character vector of categories
+colors <- c("red", "blue", "red", "green", "blue", "red", "green")
+colors
+
+colors[colors == "red"]
 
 # Convert to a factor
+?factor()
+color_fct <- factor(colors)
 
 # Check the levels
+levels(color_fct)
+
+# See underlying codes
+as.numeric(color_fct)
+as.character(color_fct)
 
 # Create an ordered factor (e.g., low, medium, high)
+satisfaction <- c("low", "high", "medium", "low", "high", "medium", "high")
+satisfaction_fct <- factor(satisfaction, levels = c("low", "medium", "high"), ordered = TRUE)
+satisfaction_fct
+
+# Logic on factors
+satisfaction_fct[1] < satisfaction_fct[2]
+
+# Change how the string is displayed
+satisfaction_fct <- factor(satisfaction,
+  levels = c("low", "medium", "high"),
+  labels = c("Low", "Average", "High"),
+  ordered = TRUE
+)
+satisfaction_fct
+
+# Levels that don't exist
+satisfaction_fct <- factor(satisfaction,
+  levels = c("low", "medium", "high", "SUPER"),
+  labels = c("Low", "Average", "High", "Super"),
+  ordered = TRUE
+)
+satisfaction_fct
+
+require(tidyverse)
+?factor()
+?as_factor()
 
 # Section 9: MAIN EXERCISE ------------------------------------------------
 # Create and manipulate a participant dataset

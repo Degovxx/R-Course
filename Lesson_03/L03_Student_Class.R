@@ -5,50 +5,100 @@
 # Section 1: Setup and Required Packages ----------------------------------
 
 # Load required packages (tidyverse includes readr)
+# install.packages("tidyverse")
+library(tidyverse)
 
 # Install and load readxl
+library(readxl)
 
 # Install and load here
+library(here)
 
-# Install and load haven (for SPSS files)
+# Install and load haven (for SPSS files). Also includes SAS and STATA and MATLAB
+library(haven)
+
+# Easy cleaning and stats helpers
+library(janitor)
 
 # Section 2: Working Directories and File Paths ---------------------------
 
+# READING: Look into file paths. Specifically network (//) SAMBA, "standard" windows paths ("C:\"), UNIX paths "/mnt/location". As well as relative paths using "..", "." nomenclature.
+
 # Check your current working directory
+getwd()
 
 # List files in your working directory
+list.files()
+list.files(pattern = "\\.csv")
 
-# Use here() to show your project root
+list.files("C:/RStuff/R-Course/data")
+
+
 
 # Section 3: Reading CSV Files ---------------------------------------------
 
 # Read a CSV file using read_csv()
+read_csv(file = "C:/RStuff/R-Course/data/sample_data.csv") -> sample_data
+# "C:/Users/Sarah/Documents/MyProject/data/file.csv"
+
+# Use here() to show your project root
+here("R-Course/data", "sample_data.csv")
+read_csv(here("R-Course/data", "sample_data.csv"))
 
 # View the first few rows
+head(sample_data)
 
 # Check the structure and data types
+str(sample_data)
+glimpse(sample_data)
 
 # Compare read_csv() vs read.csv() behavior
+read_csv(here("R-Course/data", "sample_data.csv"))
+read.csv(here("R-Course/data", "sample_data.csv"))
+
+# Save some stuff!
+dir.exists(here("R-Course/Test Export/"))
+dir.create(here("R-Course/Test Export/"), showWarnings = FALSE)
+
+write_csv(sample_data, file = here("R-Course/Test Export/", "sample_data.csv"))
 
 # Section 4: Reading Excel Files -------------------------------------------
 
 # Read an Excel file using read_excel()
+read_excel(here("R-Course/data", "sample_data.xlsx"))
 
 # Read a specific sheet by name
+read_excel(here("R-Course/data", "multi_sheet.xlsx"), sheet = 2)
 
 # Read a specific range of cells
+read_excel(here("R-Course/data", "multi_sheet.xlsx"), sheet = 1, range = "A1:C2")
 
 # Skip header rows if needed
+read_excel(here("R-Course/data", "multi_sheet.xlsx"), sheet = 1, skip = 1)
+
+
+# RData Files -------------------------------------------------------------
+# ?saveRDS
+# readRDS()
+
+?read_rds()
+?write_rds()
+
+# ?save
+# save(list = ls(all.names = TRUE))
 
 # Section 5: Reading SPSS Files --------------------------------------------
 
-# Read an SPSS file using read_sav()
-
-# View the structure and labels
+# If you need this it's in the Instructor file!
 
 # Section 6: Identifying Missing Data --------------------------------------
 
 # Create a vector with NA values
+test_scores <- c(85, 92, NA, 78, NA, 95, 88)
+test_scores
+
+# NA, _NA_Real, _NA_Character
+# Missing, Missing at Random, Missing with Purpose
 
 # Use is.na() to identify missing values
 

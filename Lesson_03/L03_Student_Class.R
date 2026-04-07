@@ -34,7 +34,6 @@ list.files(pattern = "\\.csv")
 list.files("C:/RStuff/R-Course/data")
 
 
-
 # Section 3: Reading CSV Files ---------------------------------------------
 
 # Read a CSV file using read_csv()
@@ -94,33 +93,94 @@ read_excel(here("R-Course/data", "multi_sheet.xlsx"), sheet = 1, skip = 1)
 # Section 6: Identifying Missing Data --------------------------------------
 
 # Create a vector with NA values
-test_scores <- c(85, 92, NA, 78, NA, 95, 88)
+test_scores <- c(85, 92, NA, 78, NA, 95, 88, NULL)
 test_scores
+
+# Importing with NA
+read_csv(na = c("", "NA", "NULL", "-1", "999"))
 
 # NA, _NA_Real, _NA_Character
 # Missing, Missing at Random, Missing with Purpose
 
 # Use is.na() to identify missing values
+is.na(test_scores)
+is.null(test_scores)
 
 # Count missing values in a vector
+sum(is.na(test_scores)) <= 2
 
-# Find missing values in a data frame
+# Find the index
+test_scores[which(!is.na(test_scores))]
+
+# Proportion missing
+round(mean(is.na(test_scores)) * 100, 2)
+
+# Find missing values in a data frame / tibble
+sample_with_na <- tibble(
+  id = 1:6,
+  name = c("Alice", "Bob", NA, "Diana", "Edward", "Frank"),
+  age = c(25, NA, 28, 35, NA, 32),
+  score = c(85.5, 92.3, 78.9, NA, 95.7, 88.2)
+)
+
+is.na(sample_with_na)
+colSums(is.na(sample_with_na))
+summary(sample_with_na)
+
+install.packages("naniar")
+library("naniar")
+vis_miss(sample_with_na)
 
 # Section 7: Handling Missing Data -----------------------------------------
 
 # Remove rows with any NA using na.omit()
+rowSums(is.na(sample_with_na)) > 2
+na.omit(sample_with_na)
 
 # Remove rows where a specific column is NA
+filter(sample_with_na, !is.na(name), !is.na(score))
 
 # Replace NA with a specific value
+sample_with_na$score[is.na(sample_with_na$score)] <- 10
+mutate(sample_with_na, age = replace_na(age, 0))
 
 # Fill NA with mean of the column
+mutate(sample_with_na, age = replace_na(age, mean(age, na.rm = TRUE)))
+mutate(sample_with_na, age = impute_mean(sample_with_na$age))
+
+# fill down
+fill(sample_with_na, name, .direction = "down")
+
+# Flagging
+mutate(sample_with_na, score_missing = is.na(score), age_missing = is.na(age), age = replace_na(age, mean(age, na.rm = TRUE)))
 
 # Section 8: Type Conversion and Parsing -----------------------------------
 
 # Convert character to numeric
+numbers_as_char <- c(10, 20, 30, 40, "N/A")
+as.numeric(numbers_as_char)
+
+c("$100", "20%", "30.5 kg") |>
+  parse_number()
 
 # Convert character to date
+dates_as_char <- c("2024-01-15", "2024-02-20", "2024-03-10")
+# US MM-DD-YYYY. DD-MM-YYYY. YYYY-DD-MM. Numeric dates (Search how Excel handles dates and find Excel's "Origin")
+as.Date(dates_as_char) -> dates_as_date
+str(dates_as_char)
+class(dates_as_char)
+str(dates_as_date)
+class(dates_as_date)
+
+# HOMEWORK: POSIX compliant Dates
+?POSIXct
+
+dates_messy <- c("01/15/2024", "02/20/2024", "03/10/2024")
+as.Date(dates_messy, format = "%m/%d/%Y")
+
+library(lubridate)
+
+mdy(dates_messy)
 
 # Parse numbers with currency symbols
 

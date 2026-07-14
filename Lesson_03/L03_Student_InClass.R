@@ -70,7 +70,11 @@ read_excel(here("R-Course/data", "sample_data.xlsx"))
 read_excel(here("R-Course/data", "multi_sheet.xlsx"), sheet = 2)
 
 # Read a specific range of cells
-read_excel(here("R-Course/data", "multi_sheet.xlsx"), sheet = 1, range = "A1:C2")
+read_excel(
+  here("R-Course/data", "multi_sheet.xlsx"),
+  sheet = 1,
+  range = "A1:C2"
+)
 
 # Skip header rows if needed
 read_excel(here("R-Course/data", "multi_sheet.xlsx"), sheet = 1, skip = 1)
@@ -152,7 +156,12 @@ mutate(sample_with_na, age = impute_mean(sample_with_na$age))
 fill(sample_with_na, name, .direction = "down")
 
 # Flagging
-mutate(sample_with_na, score_missing = is.na(score), age_missing = is.na(age), age = replace_na(age, mean(age, na.rm = TRUE)))
+mutate(
+  sample_with_na,
+  score_missing = is.na(score),
+  age_missing = is.na(age),
+  age = replace_na(age, mean(age, na.rm = TRUE))
+)
 
 # Section 8: Type Conversion and Parsing -----------------------------------
 
@@ -196,8 +205,45 @@ mdy(dates_messy)
 
 # Section 10: MAIN EXERCISE -----------------------------------------------
 # Import and clean a messy dataset
+library(tidyverse)
+library(here)
+read_csv(here("R-Course", "data", "messy_participant_data.csv")) -> messy_data
 
-# Step 1: Create a messy CSV file for practice
+messy_data$`Date Enrolled`
+
+messy_data[grepl(messy_data$`Date Enrolled`, pattern = "^(0-9)"), ]
+
+messy_data$Gender
+
+str_trunc(messy_data$Gender, width = 1, side = "left", ellipsis = ".")
+
+filter(messy_data, str_detect(`Date Enrolled`, "-")) |>
+  mutate(ymd(`Date Enrolled`)) |>
+  glimpse()
+
+messy_data$`Date Enrolled`[c(3, 4, 8)] <- c("2024-02-01", "2024-01-25", "2024-03-05")
+messy_data$`Date Enrolled`
+?lubridate
+?as.Date
+
+as.Date(messy_data$`Date Enrolled`) -> date_test
+str(date_test)
+class(date_test)
+
+ymd(messy_data$`Date Enrolled`) -> date_test
+str(date_test)
+class(date_test)
+
+messy_data$`Date Enrolled` <- ymd(messy_data$`Date Enrolled`)
+
+year(messy_data$`Date Enrolled`)
+month(messy_data$`Date Enrolled`)
+day(messy_data$`Date Enrolled`)
+
+paste0(month(messy_data$`Date Enrolled`), "-", day(messy_data$`Date Enrolled`), "-", year(messy_data$`Date Enrolled`))
+mdy(paste0(month(messy_data$`Date Enrolled`), "-", day(messy_data$`Date Enrolled`), "-", year(messy_data$`Date Enrolled`)))
+
+# as.data.frame# Step 1: Create a messy CSV file for practice
 # Run this code to create a sample messy file
 
 # Step 2: Import the messy data

@@ -8,26 +8,28 @@
 # Read the error message. What does it tell you?
 
 # Syntax error: missing parenthesis
-# mean(c(1, 2, 3)
+mean(c(1, 2, 3))
 
 # Object not found: typo in variable name
-# my_data <- c(10, 20, 30)
-# mean(my_Data)
+my_data <- c(10, 20, 30)
+mean(my_Data)
 
 # Type mismatch: math on characters
-# "10" + 5
+"10" + 5
 
 # What is the difference between an error, a warning, and a message?
+c("1", "A", 4) |>
+  as.numeric()
 
 # Section 2: Reading Error Messages ----------------------------------------
 
 # Practice reading this error:
-# x <- "hello"
-# log(x)
+x <- 3
+log(as.character(x))
 # What is the WHERE? What is the WHAT?
 
 # Run this and explain the warning:
-# as.numeric(c("1", "2", "three"))
+as.numeric(c("1", "2", "three"))
 
 # Section 3: Inspection Tools ----------------------------------------------
 
@@ -42,16 +44,21 @@ sample_df <- tibble(
 )
 
 # Use str() to examine the structure
+str(sample_df)
 
 # Use glimpse() to examine the structure (tidyverse version)
+glimpse(sample_df)
 
 # Use summary() to get a statistical overview
+summary(sample_df)
 
 # Use class() on the data frame and on individual columns
 
 # Use head() and tail() to look at the beginning and end
+tail(sample_df)
 
 # Use dim(), nrow(), ncol() to check dimensions
+dim(sample_df)
 
 # Section 4: Systematic Debugging Strategy ---------------------------------
 
@@ -64,20 +71,36 @@ sample_df <- tibble(
 # 6. RE-RUN from the top
 
 # Practice: This pipeline gives 0 rows. Why?
-# sample_df %>%
-#   filter(department == "sales") %>%
-#   summarize(mean_sat = mean(satisfaction))
+sample_df |>
+  filter(department == "Sales") |>
+  summarize(mean_sat = mean(satisfaction), median_sat = median(satisfaction))
+
+# Equivalent to:
+summarize(filter(sample_df, department == "Sales"), mean_sat = mean(satisfaction))
+
+# Base R
+tibble(
+  mean_sat = mean(sample_df[sample_df[, "department"] == "Sales", ]$satisfaction),
+  median_sat = median(sample_df[sample_df[, "department"] == "Sales", ]$satisfaction)
+)
 
 # Use unique() to check what values are actually in the column
 
 # Fix the filter and re-run
 
+# We can get aggregates easily
+sample_df |>
+  group_by(department) |>
+  summarize(mean_sat = mean(satisfaction), median_sat = median(satisfaction))
+
+
 # Section 5: Using browser() and debug() ----------------------------------
 
 # This function has a bug. It returns all NAs when there are missing values.
 calc_z_scores <- function(x) {
-  x_mean <- mean(x)
-  x_sd <- sd(x)
+  browser()
+  x_mean <- mean(x, na.rm = TRUE)
+  x_sd <- sd(x, na.rm = TRUE)
   z <- (x - x_mean) / x_sd
   return(z)
 }
@@ -139,12 +162,18 @@ dput(head(sample_df, 5))
 
 # --- Bug Script 3: Data frame operations (3 bugs) ---
 employees <- tibble(
-  name = c("Alice", "Bob", "Charlie", "Diana", "Edward",
-           "Fiona", "George", "Hannah", "Ian", "Julia"),
-  department = c("Sales", "Engineering", "Sales", "HR", "Engineering",
-                 "Marketing", "Sales", "HR", "Engineering", "Marketing"),
-  salary = c(55000, 72000, 58000, 61000, 75000,
-             53000, 57000, 63000, 71000, 52000),
+  name = c(
+    "Alice", "Bob", "Charlie", "Diana", "Edward",
+    "Fiona", "George", "Hannah", "Ian", "Julia"
+  ),
+  department = c(
+    "Sales", "Engineering", "Sales", "HR", "Engineering",
+    "Marketing", "Sales", "HR", "Engineering", "Marketing"
+  ),
+  salary = c(
+    55000, 72000, 58000, 61000, 75000,
+    53000, 57000, 63000, 71000, 52000
+  ),
   years = c(3, 7, 2, 5, 8, 1, 4, 6, 7, 2)
 )
 
